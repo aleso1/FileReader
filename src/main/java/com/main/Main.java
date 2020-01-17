@@ -5,6 +5,9 @@
  */
 package com.main;
 
+import com.domain.Record;
+import com.util.FileUtil;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -13,11 +16,20 @@ import java.util.Scanner;
  */
 public class Main {
 
+    private static final String BASEDIR = "C:/";
+    private static final String DIR = "Users/Utente/Desktop/file/";
+    private static final String FILENAME = "dump.csv";
+    private static final String FILENAME2 = "prova.txt";
+    private static final String FILENAME3 = "videoteca.json";
+    private static final String FILENAME4 = "biblioteca.json";
+    private static final String FILENAME5 = "discografia.json";
+    private static final String FILENAME6 = "unsorted.json";
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+
         Scanner scan = new Scanner(System.in);
 
         printMenu();
@@ -27,6 +39,8 @@ public class Main {
                 printSubMenu();
                 break;
             case 2:
+                System.out.println("------- BIBLIOTECA -------");
+                printSubMenu();
                 break;
             case 3:
                 break;
@@ -52,20 +66,34 @@ public class Main {
     }
 
     public static void printSubMenu() {
-        System.out.println("1. Visualizza tutto");
+        System.out.println("Inserire il numero:");
+        System.out.println("1. Cerca");
         System.out.println("2. Visualizza per categoria");
-        System.out.println("3. Cerca");
-        System.out.println("4. Torna indietro");
-        System.out.println("5. Esci");
+        System.out.println("3. Visualizza tutto");
+        System.out.println("4. Cerca");
+        System.out.println("5. Torna indietro");
+        System.out.println("6. Esci");
     }
 
     public static void videoteca() {
         System.out.println("Categorie:");
         System.out.println("");
     }
-    
-    public static void search(String value){
-        
+
+    public static void search(String section) {
+        String value;
+        List<Record> jsonRecords;
+        List<Record> results;
+        Scanner scan = new Scanner(System.in);
+        FileUtil fu = new FileUtil(BASEDIR, DIR, section);
+
+        System.out.println("------- CERCA -------");
+        System.out.println("Inserire una valore da cercare:");
+        value = scan.nextLine();
+
+        jsonRecords = fu.readLinesJson();        
+        results = fu.search(jsonRecords, value);
+        fu.printFromJson(results);
     }
 
 }
