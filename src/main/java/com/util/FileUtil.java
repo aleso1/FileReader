@@ -34,24 +34,18 @@ public class FileUtil {
         fullPath = baseDir + "/" + dir + "/" + fileName;
     }
 
-    public List<String> readLines() {
-        System.out.println("Da readLines() di FileManipulator: ");
-        System.out.println("-----------------------------------");
+    public List<String> readLinesString() {
 
         File file = new File(fullPath);
         lines = new ArrayList();
 
         if (file.exists()) {
-            System.out.println("Il file esiste");
-            System.out.println("-----------------------------------");
             try {
 
                 FileReader fr = new FileReader(file);
                 BufferedReader br = new BufferedReader(fr);
 
                 String line = br.readLine();
-                System.out.println("Linea letta: " + line);
-                System.out.println("1-----------------------------------");
                 while (line != null) {
                     lines.add(line);
                     line = br.readLine();
@@ -63,6 +57,34 @@ public class FileUtil {
         }
 
         return lines;
+    }
+
+    public List<Record> readLinesJson() {
+
+        File file = new File(fullPath);
+        List<String> lines;
+        List<Record> result = new ArrayList();;
+
+        if (file.exists()) {
+            lines = new ArrayList();
+            try {
+                FileReader fr = new FileReader(file);
+                BufferedReader br = new BufferedReader(fr);
+
+                String line = br.readLine();
+                while (line != null) {
+                    lines.add(line);
+                    line = br.readLine();
+                }
+                br.close();
+
+                result = jsonToRecords(lines);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
     }
 
     public void writeLines(List<String> lines) throws IOException {
@@ -149,7 +171,16 @@ public class FileUtil {
 
     }
 
-    public void printLines(List<String> lines) {
+    public void printFromString(List<String> lines) {
+        for (String x : lines) {
+            System.out.println(x);
+        }
+    }
+
+    public void printFromJson(List<Record> records) {
+        List<String> lines;
+        lines = recordsToJson(records);
+        
         for (String x : lines) {
             System.out.println(x);
         }

@@ -30,8 +30,8 @@ public class FileReaderTest {
         FileUtil fu = new FileUtil(BASEDIR, DIR, FILENAME1);
       
 
-        List<String> str = fu.readLines();
-        fu.printLines(str);
+        List<String> str = fu.readLinesString();
+        fu.printFromString(str);
 
     }
 

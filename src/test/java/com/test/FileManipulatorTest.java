@@ -35,8 +35,8 @@ public class FileManipulatorTest {
 //    @Test
     public void readAndPrint() {
         FileUtil fm = new FileUtil(BASEDIR, DIR, FILENAME3);
-        List<String> str = fm.readLines();
-        fm.printLines(str);
+        List<String> str = fm.readLinesString();
+        fm.printFromString(str);
     }
 
 //    @Test
@@ -50,7 +50,7 @@ public class FileManipulatorTest {
         FileUtil fm = new FileUtil(BASEDIR, DIR, FILENAME);
 
         System.out.println("leggo le linee del file");
-        List<String> str = fm.readLines();
+        List<String> str = fm.readLinesString();
 
         List<Record> rec = fm.stringsToRecords(str, SEPARATOR);
 
@@ -62,7 +62,7 @@ public class FileManipulatorTest {
 //    @Test
     public void writeFile() throws IOException {
         FileUtil fm = new FileUtil(BASEDIR, DIR, FILENAME);
-        List<String> str = fm.readLines();
+        List<String> str = fm.readLinesString();
 
         List<Record> rec = fm.stringsToRecords(str, SEPARATOR);
 
@@ -75,7 +75,7 @@ public class FileManipulatorTest {
 //    @Test
     public void readJson() {
         FileUtil fm = new FileUtil(BASEDIR, DIR, FILENAME2);
-        List<String> str = fm.readLines();
+        List<String> str = fm.readLinesString();
 
         List<Record> rec = fm.jsonToRecords(str);
 
@@ -102,13 +102,13 @@ public class FileManipulatorTest {
 //    @Test
     public void printByCategory() {
         FileUtil fu = new FileUtil(BASEDIR, DIR, FILENAME2);
-        List<String> str = fu.readLines();
+        List<String> str = fu.readLinesString();
         List<Record> rec = fu.jsonToRecords(str);
 
         List<Record> recResults = fu.searchByCategory(rec, "34");
 
         str = fu.recordsToJson(recResults);
-        fu.printLines(str);
+        fu.printFromString(str);
         System.out.println("numero di record per categoria 2: " + str.size());
 
     }
@@ -137,7 +137,7 @@ public class FileManipulatorTest {
 //    @Test
     public void writeByCategory() throws IOException {
         FileUtil fm = new FileUtil(BASEDIR, DIR, FILENAME2);
-        List<String> str = fm.readLines();
+        List<String> str = fm.readLinesString();
         List<Record> rec = fm.jsonToRecords(str);
 
         List<Record> recResults = fm.searchByCategory(rec, "29");
@@ -158,7 +158,7 @@ public class FileManipulatorTest {
 //    @Test
     public void writeByCategory2() throws IOException {
         FileUtil fm = new FileUtil(BASEDIR, DIR, FILENAME2);
-        List<String> str = fm.readLines();
+        List<String> str = fm.readLinesString();
         List<Record> rec = fm.jsonToRecords(str);
 
         List<Record> recResults = fm.searchByCategory(rec, "36");
@@ -174,7 +174,7 @@ public class FileManipulatorTest {
 //    @Test
     public void writeByCategory3() throws IOException {
         FileUtil fm = new FileUtil(BASEDIR, DIR, FILENAME4);
-        List<String> str = fm.readLines();
+        List<String> str = fm.readLinesString();
         List<Record> rec = fm.jsonToRecords(str);
 
         List<Record> recResults = fm.searchByCategory(rec, "2");
@@ -189,7 +189,7 @@ public class FileManipulatorTest {
 //    @Test
     public void writeUnsorted() throws IOException {
         FileUtil fm = new FileUtil(BASEDIR, DIR, FILENAME2);
-        List<String> str = fm.readLines();
+        List<String> str = fm.readLinesString();
 
         FileUtil fu = new FileUtil(BASEDIR, DIR, FILENAME6);
         fu.writeLines(str);
@@ -205,7 +205,7 @@ public class FileManipulatorTest {
 //    @Test
     public void modCategory1() throws IOException {
         FileUtil fm = new FileUtil(BASEDIR, DIR, FILENAME3);
-        List<String> str = fm.readLines();
+        List<String> str = fm.readLinesString();
 
         List<Record> rec = fm.jsonToRecords(str);
         String category;
@@ -243,7 +243,7 @@ public class FileManipulatorTest {
 //    @Test
     public void modCategory2() throws IOException {
         FileUtil fm = new FileUtil(BASEDIR, DIR, FILENAME4);
-        List<String> str = fm.readLines();
+        List<String> str = fm.readLinesString();
 
         List<Record> rec = fm.jsonToRecords(str);
         String category;
@@ -277,7 +277,7 @@ public class FileManipulatorTest {
 //    @Test
     public void modCategory3() throws IOException {
         FileUtil fm = new FileUtil(BASEDIR, DIR, FILENAME5);
-        List<String> str = fm.readLines();
+        List<String> str = fm.readLinesString();
 
         List<Record> rec = fm.jsonToRecords(str);
         String category;
@@ -298,7 +298,7 @@ public class FileManipulatorTest {
 //    @Test
     public void categoryCounter() {
         FileUtil fm = new FileUtil(BASEDIR, DIR, FILENAME5);
-        List<String> str = fm.readLines();
+        List<String> str = fm.readLinesString();
         int cat1 = 0, cat2 = 0, cat3 = 0, cat4 = 0, cat5 = 0, cat6 = 0;
         List<Record> rec = fm.jsonToRecords(str);
         String category;
