@@ -8,6 +8,7 @@ package com.test;
 import com.domain.Record;
 import com.util.FileUtil;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
@@ -18,8 +19,8 @@ import org.junit.Test;
  */
 public class FileManipulatorTest {
 
-    private static final String BASEDIR = "C:/";
-    private static final String DIR = "Users/Utente/Desktop/file/";
+    private static final String BASEDIR = "FileReader/com/";
+    private static final String DIR = "data/";
     private static final String FILENAME = "dump.csv";
     private static final String FILENAME2 = "prova.txt";
     private static final String FILENAME3 = "videoteca.json";
@@ -27,16 +28,18 @@ public class FileManipulatorTest {
     private static final String FILENAME5 = "discografia.json";
     private static final String FILENAME6 = "unsorted.json";
     private static final String SEPARATOR = ",";
-
+     
     //C:\Users\Utente\Desktop\file
-    public FileManipulatorTest() {
+ ;   public FileManipulatorTest() {
     }
 
-//    @Test
+    @Test
     public void readAndPrint() {
         FileUtil fm = new FileUtil(BASEDIR, DIR, FILENAME3);
         List<String> str = fm.readLinesString();
         fm.printFromString(str);
+        String s = getClass().getResource("biblioteca.json").toString();
+        System.out.println(s);
     }
 
 //    @Test
@@ -272,7 +275,7 @@ public class FileManipulatorTest {
         fm.removeAll();
         fm.writeLines(str);
     }
-    
+
 //    2  = Musica
 //    @Test
     public void modCategory3() throws IOException {
@@ -293,7 +296,6 @@ public class FileManipulatorTest {
         fm.removeAll();
         fm.writeLines(str);
     }
-       
 
 //    @Test
     public void categoryCounter() {

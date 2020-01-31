@@ -54,6 +54,10 @@ public class FileUtil {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else{
+            System.out.println("\n------------------------------------------------");
+            System.out.println("Il file non esiste");
+            System.out.println("------------------------------------------------");
         }
 
         return lines;
