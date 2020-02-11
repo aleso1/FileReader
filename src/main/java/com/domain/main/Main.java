@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.main;
+package com.domain.main;
 
 import com.domain.Record;
-import com.util.FileUtil;
+import com.domain.util.FileUtil;
 import java.util.List;
 import java.util.Scanner;
 
@@ -85,7 +85,7 @@ public class Main {
         List<Record> jsonRecords;
         List<Record> results;
         Scanner scan = new Scanner(System.in);
-        FileUtil fu = new FileUtil(BASEDIR, DIR, section);
+        FileUtil fu = new FileUtil(section);
 
         System.out.println("------- CERCA -------");
         System.out.println("Inserire una valore da cercare:");

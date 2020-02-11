@@ -3,7 +3,7 @@
 * To change this template file, choose Tools | Templates
 * and open the template in the editor.
  */
-package com.util;
+package com.domain.util;
 
 import com.domain.Record;
 import com.google.gson.Gson;
@@ -22,21 +22,19 @@ import java.util.List;
  */
 public class FileUtil {
 
-    private final String baseDir, dir, fileName, fullPath;
+    private final String fileName;
 
     private List<String> lines;
     private List<Record> records;
 
-    public FileUtil(String baseDir, String dir, String fileName) {
-        this.baseDir = baseDir;
-        this.dir = dir;
+    public FileUtil(String fileName) {
         this.fileName = fileName;
-        fullPath = baseDir + "/" + dir + "/" + fileName;
     }
 
     public List<String> readLinesString() {
 
-        File file = new File(fullPath);
+        File file = new File(fileName);
+        System.out.println(file.getAbsoluteFile());
         lines = new ArrayList();
 
         if (file.exists()) {
@@ -54,7 +52,7 @@ public class FileUtil {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else{
+        } else {
             System.out.println("\n------------------------------------------------");
             System.out.println("Il file non esiste");
             System.out.println("------------------------------------------------");
@@ -65,7 +63,7 @@ public class FileUtil {
 
     public List<Record> readLinesJson() {
 
-        File file = new File(fullPath);
+        File file = new File(fileName);
         List<String> lines;
         List<Record> result = new ArrayList();;
 
@@ -93,7 +91,7 @@ public class FileUtil {
 
     public void writeLines(List<String> lines) throws IOException {
 
-        File file = new File(fullPath);
+        File file = new File(fileName);
         FileWriter fw = new FileWriter(file, true);
         BufferedWriter bw = new BufferedWriter(fw);
         try {
@@ -118,9 +116,10 @@ public class FileUtil {
     }
 
     public boolean removeAll() {
-        String pathTemp = baseDir + "/" + dir + "/" + "temp" + fileName;
         boolean successful = false;
-        File inputFile = new File(fullPath);
+
+        File inputFile = new File(fileName);
+        String pathTemp = inputFile.getAbsolutePath() + "temp";
 
         if (inputFile.exists()) {
 
@@ -135,9 +134,8 @@ public class FileUtil {
 
     public void removeByCategory(String value) {
 
-        String pathTemp = baseDir + "/" + dir + "/" + "temp" + fileName;
-
-        File inputFile = new File(fullPath);
+        File inputFile = new File(fileName);
+        String pathTemp = inputFile.getAbsolutePath() + "temp";
 
         if (inputFile.exists()) {
             try {
@@ -184,7 +182,7 @@ public class FileUtil {
     public void printFromJson(List<Record> records) {
         List<String> lines;
         lines = recordsToJson(records);
-        
+
         for (String x : lines) {
             System.out.println(x);
         }
@@ -275,7 +273,7 @@ public class FileUtil {
     public boolean createJsonFile() {
         boolean exit = false;
         try {
-            File fileT = new File(fullPath);
+            File fileT = new File(fileName);
 
             if (!fileT.exists()) {
                 fileT.createNewFile();

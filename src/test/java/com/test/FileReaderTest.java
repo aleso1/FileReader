@@ -6,7 +6,7 @@
 package com.test;
 
 
-import com.util.FileUtil;
+import com.domain.util.FileUtil;
 import java.util.List;
 import org.junit.Test;
 
@@ -16,8 +16,8 @@ import org.junit.Test;
  */
 public class FileReaderTest {
 
-    private static final String BASEDIR = "C:/";
-    private static final String DIR = "Users/Utente/Desktop/file/";
+    private static final String ROOT = "com/domain/data/";
+    private static final String ROOT1 = "com/domain/data/master/";
     private static final String FILENAME1 = "videoteca.json";
     private static final String FILENAME2 = "biblioteca.json";
     private static final String FILENAME3 = "discografia.json";
@@ -27,7 +27,7 @@ public class FileReaderTest {
     public void FileReaderTest() {
         System.out.println("Quale file vuoi leggere?");
         
-        FileUtil fu = new FileUtil(BASEDIR, DIR, FILENAME1);
+        FileUtil fu = new FileUtil(ROOT+FILENAME1);
       
 
         List<String> str = fu.readLinesString();
