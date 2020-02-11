@@ -5,7 +5,7 @@
  */
 package com.domain.main;
 
-import com.domain.Record;
+import com.domain.pojo.Record;
 import com.domain.util.FileUtil;
 import java.util.List;
 import java.util.Scanner;

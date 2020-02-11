@@ -5,7 +5,7 @@
  */
 package com.domain.util;
 
-import com.domain.Record;
+import com.domain.pojo.Record;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -130,6 +130,45 @@ public class FileUtil {
 
         }
         return successful;
+    }
+    
+    public void removeByHash(String hash){
+        File inputFile = new File(fileName);
+        String pathTemp = inputFile.getAbsolutePath() + "temp";
+        
+        if (inputFile.exists()) {
+            try {
+                File tempFile = new File(pathTemp);
+                BufferedReader br = new BufferedReader(new FileReader(inputFile));
+                BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile, true));
+                String currentLine = br.readLine();
+
+                List<Record> records = new ArrayList();
+                Record rec;
+                Gson gs = new Gson();
+
+                while (currentLine != null) {
+                    rec = gs.fromJson(currentLine, Record.class);
+                    if (rec.getHash().equals(hash)) {
+                        currentLine = br.readLine();
+                        continue;
+                    }
+
+                    bw.write(currentLine + "\n");
+                    currentLine = br.readLine();
+                }
+
+                bw.close();
+                br.close();
+
+                boolean successful = inputFile.delete();
+                successful = tempFile.renameTo(inputFile);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     public void removeByCategory(String value) {

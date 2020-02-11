@@ -5,7 +5,7 @@
  */
 package com.test;
 
-import com.domain.Record;
+import com.domain.pojo.Record;
 import com.domain.util.FileUtil;
 import java.io.File;
 import java.io.IOException;
@@ -30,9 +30,9 @@ public class FileManipulatorTest {
     private static final String FILENAME6 = "unsorted.json";
     private static final String SEPARATOR = ",";
 
-    @Test
+//    @Test
     public void readAndPrint() {
-        FileUtil fm = new FileUtil(ROOT + FILENAME4);
+        FileUtil fm = new FileUtil(ROOT + FILENAME6);
         List<String> str = fm.readLinesString();
         fm.printFromString(str);
     }
@@ -331,6 +331,29 @@ public class FileManipulatorTest {
         System.out.println("ci sono " + cat4 + " occorrenze di 4");
         System.out.println("ci sono " + cat5 + " occorrenze di 5");
         System.out.println("ci sono " + cat6 + " occorrenze di 6");
+    }
+
+    @Test
+    public void smistaUnsorded() throws IOException {
+        FileUtil fm = new FileUtil(ROOT + FILENAME6);
+        List<Record> rec = fm.readLinesJson();
+
+        List<Record> unsorted = new ArrayList();
+
+        for (Record r : rec) {
+            if (r.getDescription().toLowerCase().contains("sub")) {
+                r.setCategory("99");
+                unsorted.add(r);
+//                fm.removeByHash(r.getHash());
+            }
+        }
+        
+        FileUtil fm2 = new FileUtil(ROOT + "unsortedVideo.json");
+        if (fm2.createJsonFile()) {
+            fm2.writeLines(fm2.recordsToJson(unsorted));
+        }
+        
+        fm2.printFromString(fm.readLinesString());
     }
 
 }
