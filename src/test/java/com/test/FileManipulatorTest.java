@@ -355,5 +355,10 @@ public class FileManipulatorTest {
         
         fm2.printFromString(fm.readLinesString());
     }
+    
+    public void deleteDuplicate(){
+        FileUtil fm = new FileUtil(ROOT + FILENAME6);
+        List<Record> rec = fm.readLinesJson();
+    }
 
 }
