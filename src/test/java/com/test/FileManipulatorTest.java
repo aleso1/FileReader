@@ -24,15 +24,16 @@ public class FileManipulatorTest {
     private static final String ROOT1 = "src/main/java/com/domain/data/master/";
     private static final String FILENAME = "dump.csv";
     private static final String FILENAME2 = "prova.txt";
-    private static final String FILENAME3 = "videoteca.json";
-    private static final String FILENAME4 = "biblioteca.json";
-    private static final String FILENAME5 = "discografia.json";
-    private static final String FILENAME6 = "unsorted.json";
+    private static final String VIDEOTECA = "videoteca.json";
+    private static final String BIBLIOTECA = "biblioteca.json";
+    private static final String DISCOGRAFIA = "discografia.json";
+    private static final String UNSORTED = "unsorted.json";
+    private static final String UNSORTED_VIDEO = "unsortedVideo.json";
     private static final String SEPARATOR = ",";
 
 //    @Test
     public void readAndPrint() {
-        FileUtil fm = new FileUtil(ROOT + FILENAME6);
+        FileUtil fm = new FileUtil(ROOT + UNSORTED);
         List<String> str = fm.readLinesString();
         fm.printFromString(str);
     }
@@ -142,7 +143,7 @@ public class FileManipulatorTest {
 
         str = fm.recordsToJson(recResults);
 
-        FileUtil fu = new FileUtil(ROOT + FILENAME3);
+        FileUtil fu = new FileUtil(ROOT + VIDEOTECA);
 
         fu.writeLines(str);
 
@@ -163,7 +164,7 @@ public class FileManipulatorTest {
 
         str = fm.recordsToJson(recResults);
 
-        FileUtil fu = new FileUtil(ROOT + FILENAME4);
+        FileUtil fu = new FileUtil(ROOT + BIBLIOTECA);
         fu.writeLines(str);
 
     }
@@ -171,7 +172,7 @@ public class FileManipulatorTest {
     //    2  = Musica
 //    @Test
     public void writeByCategory3() throws IOException {
-        FileUtil fm = new FileUtil(ROOT + FILENAME4);
+        FileUtil fm = new FileUtil(ROOT + BIBLIOTECA);
         List<String> str = fm.readLinesString();
         List<Record> rec = fm.jsonToRecords(str);
 
@@ -179,7 +180,7 @@ public class FileManipulatorTest {
 
         str = fm.recordsToJson(recResults);
 
-        FileUtil fu = new FileUtil(ROOT + FILENAME5);
+        FileUtil fu = new FileUtil(ROOT + DISCOGRAFIA);
         fu.writeLines(str);
 
     }
@@ -189,7 +190,7 @@ public class FileManipulatorTest {
         FileUtil fm = new FileUtil(ROOT + FILENAME2);
         List<String> str = fm.readLinesString();
 
-        FileUtil fu = new FileUtil(ROOT + FILENAME6);
+        FileUtil fu = new FileUtil(ROOT + UNSORTED);
         fu.writeLines(str);
 
     }
@@ -202,7 +203,7 @@ public class FileManipulatorTest {
 //    29 = Serie TV
 //    @Test
     public void modCategory1() throws IOException {
-        FileUtil fm = new FileUtil(ROOT + FILENAME3);
+        FileUtil fm = new FileUtil(ROOT + VIDEOTECA);
         List<String> str = fm.readLinesString();
 
         List<Record> rec = fm.jsonToRecords(str);
@@ -240,7 +241,7 @@ public class FileManipulatorTest {
 //    36 = Edicola
 //    @Test
     public void modCategory2() throws IOException {
-        FileUtil fm = new FileUtil(ROOT + FILENAME4);
+        FileUtil fm = new FileUtil(ROOT + BIBLIOTECA);
         List<String> str = fm.readLinesString();
 
         List<Record> rec = fm.jsonToRecords(str);
@@ -274,7 +275,7 @@ public class FileManipulatorTest {
 //    2  = Musica
 //    @Test
     public void modCategory3() throws IOException {
-        FileUtil fm = new FileUtil(ROOT + FILENAME5);
+        FileUtil fm = new FileUtil(ROOT + DISCOGRAFIA);
         List<String> str = fm.readLinesString();
 
         List<Record> rec = fm.jsonToRecords(str);
@@ -294,7 +295,7 @@ public class FileManipulatorTest {
 
 //    @Test
     public void categoryCounter() {
-        FileUtil fm = new FileUtil(ROOT + FILENAME5);
+        FileUtil fm = new FileUtil(ROOT + DISCOGRAFIA);
         List<String> str = fm.readLinesString();
         int cat1 = 0, cat2 = 0, cat3 = 0, cat4 = 0, cat5 = 0, cat6 = 0;
         List<Record> rec = fm.jsonToRecords(str);
@@ -335,7 +336,7 @@ public class FileManipulatorTest {
 
     @Test
     public void smistaUnsorded() throws IOException {
-        FileUtil fm = new FileUtil(ROOT + FILENAME6);
+        FileUtil fm = new FileUtil(ROOT + UNSORTED);
         List<Record> rec = fm.readLinesJson();
 
         List<Record> unsorted = new ArrayList();
@@ -357,7 +358,7 @@ public class FileManipulatorTest {
     }
     
     public void deleteDuplicate(){
-        FileUtil fm = new FileUtil(ROOT + FILENAME6);
+        FileUtil fm = new FileUtil(ROOT + UNSORTED);
         List<Record> rec = fm.readLinesJson();
     }
 
