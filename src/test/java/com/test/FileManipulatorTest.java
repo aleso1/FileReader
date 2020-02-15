@@ -358,8 +358,8 @@ public class FileManipulatorTest {
     }
     
     public void deleteDuplicate(){
-        FileUtil fm = new FileUtil(ROOT + UNSORTED);
-        List<Record> rec = fm.readLinesJson();
+        FileUtil fm = new FileUtil(ROOT + UNSORTED_VIDEO);
+        List<Record> recUnw = fm.readLinesJson();
     }
 
 }

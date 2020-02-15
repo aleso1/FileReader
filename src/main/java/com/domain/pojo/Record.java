@@ -5,6 +5,8 @@
  */
 package com.domain.pojo;
 
+import java.util.Objects;
+
 /**
  *
  * @author Utente
@@ -78,5 +80,48 @@ public class Record {
     public String toString() {
         return "Record{" + "date=" + date + ", hash=" + hash + ", titolo=" + title + ", descrizione=" + description + ", categoria=" + category + '}';
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.date);
+        hash = 97 * hash + Objects.hashCode(this.hash);
+        hash = 97 * hash + Objects.hashCode(this.title);
+        hash = 97 * hash + Objects.hashCode(this.description);
+        hash = 97 * hash + Objects.hashCode(this.category);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Record other = (Record) obj;
+        if (!Objects.equals(this.date, other.date)) {
+            return false;
+        }
+        if (!Objects.equals(this.hash, other.hash)) {
+            return false;
+        }
+        if (!Objects.equals(this.title, other.title)) {
+            return false;
+        }
+        if (!Objects.equals(this.description, other.description)) {
+            return false;
+        }
+        if (!Objects.equals(this.category, other.category)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 
 }
