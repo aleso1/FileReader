@@ -71,12 +71,9 @@ public class FileManipulatorTest {
         fm2.writeLines(str);
     }
 
-//    @Test
-    public void readJson() {
-        FileUtil fm = new FileUtil(FILENAME2);
-        List<String> str = fm.readLinesString();
-
-        List<Record> rec = fm.jsonToRecords(str);
+    public void readJson(String filename) {
+        FileUtil fm = new FileUtil(ROOT + filename);
+        List<Record> rec = fm.readLinesJson();
 
         for (Record x : rec) {
             System.out.println(x.toString());
@@ -334,7 +331,7 @@ public class FileManipulatorTest {
         System.out.println("ci sono " + cat6 + " occorrenze di 6");
     }
 
-    @Test
+//    @Test
     public void smistaUnsorded() throws IOException {
         FileUtil fm = new FileUtil(ROOT + UNSORTED);
         List<Record> rec = fm.readLinesJson();
@@ -348,18 +345,43 @@ public class FileManipulatorTest {
 //                fm.removeByHash(r.getHash());
             }
         }
-        
+
         FileUtil fm2 = new FileUtil(ROOT + "unsortedVideo.json");
         if (fm2.createJsonFile()) {
             fm2.writeLines(fm2.recordsToJson(unsorted));
         }
-        
+
         fm2.printFromString(fm.readLinesString());
     }
-    
-    public void deleteDuplicate(){
+
+    @Test
+    public void deleteDuplicate() {
         FileUtil fm = new FileUtil(ROOT + UNSORTED_VIDEO);
-        List<Record> recUnw = fm.readLinesJson();
+        List<Record> unsVideo = fm.readLinesJson();
+
+        FileUtil fm2 = new FileUtil(ROOT + UNSORTED);
+        List<Record> uns = fm2.readLinesJson();
+
+        System.out.println("video size " + unsVideo.size());
+        List<Record> temp = new ArrayList();
+        System.out.println("temp init size " + temp.size());
+        System.out.println("uns init size " + uns.size());
+
+//        for (int i = 0; i < uns.size(); i++) {
+//            if (!unsVideo.contains(uns.get(i))) {
+//                temp.remove(uns.get(i));
+//            }
+//        }
+
+        for (Record r : uns) {
+            if (!unsVideo.contains(r)) {
+                temp.add(r);
+            }
+        }
+
+        System.out.println("temp end size " + temp.size());
+        System.out.println(uns.size() - unsVideo.size());
+
     }
 
 }

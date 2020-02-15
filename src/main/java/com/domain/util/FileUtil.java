@@ -132,7 +132,7 @@ public class FileUtil {
         return successful;
     }
     
-    public void removeByHash(String hash){
+    public void removeSingleByHash(String hash){
         File inputFile = new File(fileName);
         String pathTemp = inputFile.getAbsolutePath() + "temp";
         
@@ -218,12 +218,21 @@ public class FileUtil {
         }
     }
 
-    public void printFromJson(List<Record> records) {
+    public void printFromRecord(List<Record> records) {
         List<String> lines;
         lines = recordsToJson(records);
 
         for (String x : lines) {
             System.out.println(x);
+        }
+    }
+    
+    public void printFromFile(){
+         List<String> lines;
+        lines = readLinesString();
+        
+        for (String line : lines) {
+            System.out.println(line);
         }
     }
 

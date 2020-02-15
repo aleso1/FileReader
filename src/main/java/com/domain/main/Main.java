@@ -93,7 +93,7 @@ public class Main {
 
         jsonRecords = fu.readLinesJson();        
         results = fu.search(jsonRecords, value);
-        fu.printFromJson(results);
+        fu.printFromRecord(results);
     }
 
 }
