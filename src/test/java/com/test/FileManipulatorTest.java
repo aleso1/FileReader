@@ -5,8 +5,9 @@
  */
 package com.test;
 
-import com.domain.pojo.Record;
-import com.domain.util.FileUtil;
+import com.domain.model.pojo.Record;
+import com.domain.model.util.FileUtil;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
