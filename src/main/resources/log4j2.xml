@@ -13,7 +13,7 @@
 
 	<Loggers>
 
-		<Logger name="com.domain.model.util"
+		<Logger name="com.domain.model.util.Log"
 			level="trace" />
 
 		<Root level="trace">

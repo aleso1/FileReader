@@ -36,24 +36,29 @@ public class Menu implements Log {
 	}
 
 	public void printOptions() {
-		LOG.debug("Printing options...");
-		for (int index : menuOption.keySet()) {
-			System.out.println(index + ". " + menuOption.get(index));
+		LOG.info("Printing options...");
+		for (int i : menuOption.keySet()) {
+			System.out.println(i + ". " + menuOption.get(i).getName());
 		}
 	}
 
+	// restituisce -1 se l'input non è valido
 	public int choose() {
-		LOG.debug("Choosing..");
+		LOG.info("Choosing..");
 
 		Scanner scan = new Scanner(System.in);
-		int choosen = 0;
+		int choosen = -1;
 
 		System.out.println("\nInsert a number: ");
-		choosen = scan.nextInt();
 
-		System.out.println(" \nOtpion selected: " + choosen + ". " + menuOption.get(choosen));
+		try {
 
-		scan.close();
+			choosen = Integer.valueOf(scan.nextLine());
+			System.out.println(" \nSelected Option: " + menuOption.get(choosen).getName());
+
+		} catch (NumberFormatException e) {
+			LOG.error("Invalid input. Expected an Integer -> " + e.getMessage());
+		}
 
 		return choosen;
 	}
@@ -67,9 +72,25 @@ public class Menu implements Log {
 		System.out.println("\nSearch: ");
 		strToSearch = scan.nextLine();
 
-		scan.close();
+//		scan.close();
 
 		return strToSearch;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

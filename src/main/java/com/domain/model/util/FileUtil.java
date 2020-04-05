@@ -5,8 +5,6 @@
  */
 package com.domain.model.util;
 
-import com.domain.model.pojo.Record;
-import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -20,318 +18,109 @@ import java.util.List;
  *
  * @author Utente
  */
-public class FileUtil {
-
-    private final String fileName;
-
-    private List<String> lines;
-    private List<Record> records;
-
-    public FileUtil(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public List<String> readLinesString() {
-
-        File file = new File(fileName);
-        System.out.println(file.getAbsoluteFile());
-        lines = new ArrayList();
-
-        if (file.exists()) {
-            try {
-
-                FileReader fr = new FileReader(file);
-                BufferedReader br = new BufferedReader(fr);
-
-                String line = br.readLine();
-                while (line != null) {
-                    lines.add(line);
-                    line = br.readLine();
-                }
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("\n------------------------------------------------");
-            System.out.println("Il file non esiste");
-            System.out.println("------------------------------------------------");
-        }
-
-        return lines;
-    }
-
-    public List<Record> readLinesJson() {
-
-        File file = new File(fileName);
-        List<String> lines;
-        List<Record> result = new ArrayList();;
-
-        if (file.exists()) {
-            lines = new ArrayList();
-            try {
-                FileReader fr = new FileReader(file);
-                BufferedReader br = new BufferedReader(fr);
-
-                String line = br.readLine();
-                while (line != null) {
-                    lines.add(line);
-                    line = br.readLine();
-                }
-                br.close();
-
-                result = jsonToRecords(lines);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return result;
-    }
-
-    public void writeLines(List<String> lines) throws IOException {
-
-        File file = new File(fileName);
-        FileWriter fw = new FileWriter(file, true);
-        BufferedWriter bw = new BufferedWriter(fw);
-        try {
-            for (String a : lines) {
-                bw.write(a + "\n");
-            }
-
-            bw.flush();
-            bw.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (bw != null) {
-                try {
-                    bw.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    public boolean removeAll() {
-        boolean successful = false;
-
-        File inputFile = new File(fileName);
-        String pathTemp = inputFile.getAbsolutePath() + "temp";
-
-        if (inputFile.exists()) {
-
-            File tempFile = new File(pathTemp);
-
-            successful = inputFile.delete();
-            successful = tempFile.renameTo(inputFile);
-
-        }
-        return successful;
-    }
-    
-    public void removeSingleByHash(String hash){
-        File inputFile = new File(fileName);
-        String pathTemp = inputFile.getAbsolutePath() + "temp";
-        
-        if (inputFile.exists()) {
-            try {
-                File tempFile = new File(pathTemp);
-                BufferedReader br = new BufferedReader(new FileReader(inputFile));
-                BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile, true));
-                String currentLine = br.readLine();
-
-                List<Record> records = new ArrayList();
-                Record rec;
-                Gson gs = new Gson();
-
-                while (currentLine != null) {
-                    rec = gs.fromJson(currentLine, Record.class);
-                    if (rec.getHash().equals(hash)) {
-                        currentLine = br.readLine();
-                        continue;
-                    }
-
-                    bw.write(currentLine + "\n");
-                    currentLine = br.readLine();
-                }
-
-                bw.close();
-                br.close();
-
-                boolean successful = inputFile.delete();
-                successful = tempFile.renameTo(inputFile);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-    }
-
-    public void removeByCategory(String value) {
-
-        File inputFile = new File(fileName);
-        String pathTemp = inputFile.getAbsolutePath() + "temp";
-
-        if (inputFile.exists()) {
-            try {
-                File tempFile = new File(pathTemp);
-                BufferedReader br = new BufferedReader(new FileReader(inputFile));
-                BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile, true));
-                String currentLine = br.readLine();
-
-                List<Record> records = new ArrayList();
-                Record rec;
-                Gson gs = new Gson();
-
-                while (currentLine != null) {
-                    rec = gs.fromJson(currentLine, Record.class);
-                    if (rec.getCategory().equals(value)) {
-                        currentLine = br.readLine();
-                        continue;
-                    }
-
-                    bw.write(currentLine + "\n");
-                    currentLine = br.readLine();
-                }
-
-                bw.close();
-                br.close();
-
-                boolean successful = inputFile.delete();
-                successful = tempFile.renameTo(inputFile);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-    }
-
-    public void printFromString(List<String> lines) {
-        for (String x : lines) {
-            System.out.println(x);
-        }
-    }
-
-    public void printFromRecord(List<Record> records) {
-        List<String> lines;
-        lines = recordsToJson(records);
-
-        for (String x : lines) {
-            System.out.println(x);
-        }
-    }
-    
-    public void printFromFile(){
-         List<String> lines;
-        lines = readLinesString();
-        
-        for (String line : lines) {
-            System.out.println(line);
-        }
-    }
-
-    public List<Record> searchByCategory(List<Record> records, String value) {
-        List<Record> exit = new ArrayList();
-
-        for (Record x : records) {
-            if (x.getCategory().equals(value)) {
-                exit.add(x);
-            }
-        }
-        return exit;
-    }
-
-    public List<Record> search(List<Record> records, String value) {
-        List<Record> exit = new ArrayList();
-
-        for (Record x : records) {
-            if (x.getTitle().contains(value)) {
-                exit.add(x);
-            }
-        }
-
-        return exit;
-    }
-
-    public List<Record> stringsToRecords(List<String> lines, String SEPARATOR) {
-        int i;
-        Record rec;
-        records = new ArrayList();
-
-        for (String x : lines) {
-            rec = new Record();
-            i = 0;
-
-            for (String y : x.split(SEPARATOR)) {
-
-                switch (i) {
-                    case 0:
-                        rec.setDate(y);
-                        break;
-                    case 1:
-                        rec.setHash(y);
-                        break;
-                    case 5:
-                        rec.setTitle(y);
-                        break;
-                    case 6:
-                        rec.setDescription(y);
-                        break;
-                    case 8:
-                        rec.setCategory(y);
-                        break;
-                    default:
-                        break;
-                }
-                i++;
-            }
-            records.add(rec);
-        }
-        return records;
-    }
-
-    public List<String> recordsToJson(List<Record> records) {
-        List<String> strRecords = new ArrayList();
-        Gson gs = new Gson();
-
-        for (Record x : records) {
-            strRecords.add(gs.toJson(x));
-        }
-
-        return strRecords;
-    }
-
-    public List<Record> jsonToRecords(List<String> jsons) {
-        List<Record> records = new ArrayList();
-        Gson gs = new Gson();
-
-        for (String x : jsons) {
-            records.add(gs.fromJson(x, Record.class));
-        }
-
-        return records;
-    }
-
-    public boolean createJsonFile() {
-        boolean exit = false;
-        try {
-            File fileT = new File(fileName);
-
-            if (!fileT.exists()) {
-                fileT.createNewFile();
-                exit = true;
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return exit;
-    }
+public class FileUtil implements Log {
+
+	private final String fileName;
+
+	private List<String> lines;
+
+	public FileUtil(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public List<String> readLinesString() {
+		LOG.debug("Reading from file..");
+
+		File file = new File(fileName);
+
+		if (file.exists()) {
+
+			lines = new ArrayList();
+			try {
+
+				FileReader fr = new FileReader(file);
+				BufferedReader br = new BufferedReader(fr);
+
+				String line = br.readLine();
+				while (line != null) {
+					lines.add(line);
+					line = br.readLine();
+				}
+				br.close();
+			} catch (IOException e) {
+				LOG.error(e.getMessage());
+			}
+		} else {
+			LOG.debug("File doesn't exixt");
+		}
+
+		return lines;
+	}
+
+	public void writeLines(List<String> lines) throws IOException {
+		LOG.debug("Writing on file..");
+
+		File file = new File(fileName);
+		FileWriter fw = new FileWriter(file, true);
+		BufferedWriter bw = new BufferedWriter(fw);
+		try {
+			for (String a : lines) {
+				bw.write(a + "\n");
+			}
+
+			bw.flush();
+			bw.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (bw != null) {
+				try {
+					bw.close();
+				} catch (IOException e) {
+					LOG.error(e.getMessage());
+				}
+			}
+		}
+	}
+
+	public boolean replaceAll(List<String> newLines) {
+		LOG.debug("Deleting file..");
+
+		boolean result = false;
+
+		File inputFile = new File(fileName);
+
+		if (inputFile.exists()) {
+			boolean isDeleted = inputFile.delete();
+			if (isDeleted && createFile()) {
+				try {
+					writeLines(newLines);
+					result = true;
+				} catch (IOException e) {
+					LOG.error(e.getMessage());
+				}
+			}
+		}
+		return result;
+	}
+
+	public boolean createFile() {
+		LOG.debug("Creating new file..");
+
+		boolean result = false;
+		try {
+			File fileT = new File(fileName);
+
+			if (!fileT.exists()) {
+				fileT.createNewFile();
+				result = true;
+			}
+
+		} catch (IOException e) {
+			LOG.error(e.getMessage());
+		}
+		return result;
+	}
 
 }
