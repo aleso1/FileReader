@@ -32,7 +32,7 @@ public class ViewFactory {
 		return mainMenu;
 	}
 
-	public Menu getSubMenu(int index, String menuName) {
+	public static Menu getSubMenu(int index, String menuName) {
 
 		Menu subMenu = new Menu(index, menuName);
 		Menu menu = null;

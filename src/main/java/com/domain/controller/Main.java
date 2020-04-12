@@ -5,10 +5,8 @@
  */
 package com.domain.controller;
 
-import java.util.List;
 import java.util.Scanner;
 
-import com.domain.model.util.FileUtil;
 import com.domain.model.util.Log;
 import com.domain.view.Menu;
 import com.domain.view.ViewFactory;
@@ -18,6 +16,8 @@ import com.domain.view.ViewFactory;
  * @author Utente
  */
 public class Main implements Log {
+	
+	public static Scanner scan = new Scanner(System.in);
 
 	public static void main(String[] args) {
 		Boolean exit = false;
@@ -87,13 +87,36 @@ public class Main implements Log {
 
 		}
 
+		scan.close();
 	}
 
 	public static boolean waitInput() {
-		System.out.println("\nContinue (y/n)");
+		boolean result = false;
+		boolean next = true;
+
+		System.out.println("\n1. Keep Searching");
+		System.out.println("\n2. Eixt");
 
 		Scanner scan = new Scanner(System.in);
-		return scan.nextLine() == "y" ? true : false;
+		while (next) {
+
+			switch (scan.nextInt()) {
+			case 1:
+				result = true;
+				break;
+
+			case 2:
+				result = false;
+				break;
+
+			default:
+				continue;
+			}
+
+			next = false;
+		}
+		
+		return result;
 	}
 
 }

@@ -2,12 +2,16 @@ package com.domain.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
+import com.domain.controller.searcher.Searcher;
 import com.domain.model.pojo.Record;
 import com.domain.model.util.FileUtil;
+import com.domain.model.util.Log;
+import com.domain.view.ConsoleAppender;
 import com.google.gson.Gson;
 
-public class FileController {
+public class FileController implements Log {
 
 	private static final String ROOT = "src/main/java/com/domain/data/";
 	private static final String VIDEOTECA = "videoteca.json";
@@ -28,62 +32,114 @@ public class FileController {
 		fu = new FileUtil(ROOT + files[--fileNameIndex]);
 	}
 
-	public void print(List<String> lines) {
-		lines.forEach(line -> System.out.println(line));
+	public static void pagination(List<Record> records) {
+		int size = records.size();
+		int numumberOfPages = 0;
+		int start = 0;
+		int stop = MAXRESULTS;
+
+		boolean next = true;
+
+		System.out.println("\nResults found: " + size + "\n");
+
+		if (size < MAXRESULTS) {
+			LOG.debug("Results found are lesser then MAXRESULT");
+			ConsoleAppender.print(records);
+		} else {
+
+			numumberOfPages = size / MAXRESULTS;
+			int currentPage = 1;
+
+			if (numumberOfPages < size / MAXRESULTS) {
+				numumberOfPages++;
+			}
+
+			while (next) {
+
+				if (currentPage <= numumberOfPages) {
+
+					for (int i = start; i < stop; i++) {
+						System.out.println(records.get(i));
+					}
+
+					System.out.println("Start: " + start + " Stop: " + stop);
+					System.out.println("\nPage " + currentPage + " of " + numumberOfPages + "\n");
+
+					currentPage++;
+				}
+
+				LOG.debug("Waiting for user input..");
+
+				switch (getUserInput()) {
+				case 1:
+					LOG.debug("Selected: 1. Go Forward");
+
+					if (currentPage <= numumberOfPages) {
+						LOG.debug("End not reached..");
+						start = stop;
+						stop = currentPage == numumberOfPages ? size : stop + MAXRESULTS;
+					} else {
+						LOG.debug("Reached end..");
+					}
+
+					break;
+				case 2:
+					LOG.debug("Selected: 2. Go Back");
+
+					if (currentPage > 1) {
+						LOG.debug("Going back..");
+						currentPage -= 2;
+						stop = start;
+						start -= MAXRESULTS;
+					} else {
+						LOG.debug("Attempted to go before the first page..");
+					}
+
+					break;
+
+				case 3:
+					LOG.debug("Selected: 3. Exit");
+					return;
+
+				default:
+					LOG.debug("Invalid input..");
+					break;
+				}
+			}
+		}
 	}
 
-	public void printFromRecord(List<Record> records) {
-		print(recordsToJson(records));
-	}
+	private static int getUserInput() {
+		Scanner scan = new Scanner(System.in);
 
-	public void printRecords(List<Record> records) {
-		records.forEach(rec -> System.out.println(rec.toString()));
+		System.out.println("1. Go Forward");
+		System.out.println("2. Go Back");
+		System.out.println("3. Exit");
+
+		System.out.println("\nEnter your choise:");
+
+		return scan.nextInt();
 	}
 
 	public void readAndPrint() {
-		print(fu.readLinesString());
+		ConsoleAppender.print(fu.readLinesString());
+	}
+
+	public void search(String strToSearch) {
+		List<String> lines = searchOnFile(strToSearch);
+
+		if (!lines.isEmpty()) {
+			pagination(deserialize(lines));
+		}
+
+		System.out.println("\nResults found: " + lines.size() + "\n");
 	}
 
 	public List<String> searchOnFile(String strToSearch) {
-		return search(fu.readLinesString(), strToSearch);
+		return Searcher.search(fu.readLinesString(), strToSearch);
 	}
 
-	public List<String> search(List<String> recordsStr, String strToSearch) {
-
-		List<String> exit = new ArrayList();
-
-		for (String s : recordsStr) {
-			if (s.toLowerCase().contains(strToSearch.toLowerCase())) {
-				exit.add(s);
-			}
-		}
-		return exit;
-	}
-
-	public List<Record> searchByCategory(List<Record> records, String value) {
-		List<Record> exit = new ArrayList();
-
-		for (Record x : records) {
-			if (x.getCategory().equals(value)) {
-				exit.add(x);
-			}
-		}
-		return exit;
-	}
-
-	public List<Record> searchByTitle(List<Record> records, String value) {
-		List<Record> exit = new ArrayList();
-
-		for (Record x : records) {
-			if (x.getTitle().contains(value)) {
-				exit.add(x);
-			}
-		}
-
-		return exit;
-	}
-
-	public List<String> recordsToJson(List<Record> records) {
+	public static List<String> serialize(List<Record> records) {
 		List<String> strRecords = new ArrayList();
 		Gson gs = new Gson();
 
@@ -94,7 +150,7 @@ public class FileController {
 		return strRecords;
 	}
 
-	public List<Record> jsonToRecords(List<String> jsons) {
+	public static List<Record> deserialize(List<String> jsons) {
 		List<Record> records = new ArrayList();
 		Gson gs = new Gson();
 
@@ -106,16 +162,7 @@ public class FileController {
 	}
 
 	public List<Record> readRecords() {
-		return jsonToRecords(fu.readLinesString());
+		return deserialize(fu.readLinesString());
 	}
 
-	public void search(String strToSearch) {
-		List<String> lines = searchOnFile(strToSearch);
-
-		System.out.println("\nResult found: " + lines.size() + "\n");
-
-		if (!lines.isEmpty()) {
-			printRecords(jsonToRecords(lines));
-		}
-	}
 }

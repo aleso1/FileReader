@@ -23,105 +23,104 @@ import java.util.Objects;
 
 public class Record {
 
-    private String date, hash, title, description, category;
+	private String date, hash, title, description, category;
 
-    public Record(String date, String hash, String title, String description, String category) {
-        this.date = date;
-        this.hash = hash;
-        this.title = title;
-        this.description = description;
-        this.category = category;
-    }
+	public Record(String date, String hash, String title, String description, String category) {
+		this.date = date;
+		this.hash = hash;
+		this.title = title;
+		this.description = description;
+		this.category = category;
+	}
 
-    public Record() {
-    }
+	public Record() {
+	}
 
-    public String getDate() {
-        return date;
-    }
+	public String getDate() {
+		return date;
+	}
 
-    public void setDate(String date) {
-        this.date = date;
-    }
+	public void setDate(String date) {
+		this.date = date;
+	}
 
-    public String getHash() {
-        return hash;
-    }
+	public String getHash() {
+		return hash;
+	}
 
-    public void setHash(String hash) {
-        this.hash = hash;
-    }
+	public void setHash(String hash) {
+		this.hash = hash;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public String getCategory() {
-        return category;
-    }
+	public String getCategory() {
+		return category;
+	}
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
+	public void setCategory(String category) {
+		this.category = category;
+	}
 
-    @Override
-    public String toString() {
-        return "Record{" + "date=" + date + ", hash=" + hash + ", titolo=" + title + ", descrizione=" + description + ", categoria=" + category + '}';
-    }
+	@Override
+	public String toString() {
+		return "Record{" + " HASH = " + hash + " --- TITOLO = " + title + " --- DESCRIZIONE = " + description
+				+ " --- categoria=" + category + '}';
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.date);
-        hash = 97 * hash + Objects.hashCode(this.hash);
-        hash = 97 * hash + Objects.hashCode(this.title);
-        hash = 97 * hash + Objects.hashCode(this.description);
-        hash = 97 * hash + Objects.hashCode(this.category);
-        return hash;
-    }
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 97 * hash + Objects.hashCode(this.date);
+		hash = 97 * hash + Objects.hashCode(this.hash);
+		hash = 97 * hash + Objects.hashCode(this.title);
+		hash = 97 * hash + Objects.hashCode(this.description);
+		hash = 97 * hash + Objects.hashCode(this.category);
+		return hash;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Record other = (Record) obj;
-        if (!Objects.equals(this.date, other.date)) {
-            return false;
-        }
-        if (!Objects.equals(this.hash, other.hash)) {
-            return false;
-        }
-        if (!Objects.equals(this.title, other.title)) {
-            return false;
-        }
-        if (!Objects.equals(this.description, other.description)) {
-            return false;
-        }
-        if (!Objects.equals(this.category, other.category)) {
-            return false;
-        }
-        return true;
-    }
-    
-    
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final Record other = (Record) obj;
+		if (!Objects.equals(this.date, other.date)) {
+			return false;
+		}
+		if (!Objects.equals(this.hash, other.hash)) {
+			return false;
+		}
+		if (!Objects.equals(this.title, other.title)) {
+			return false;
+		}
+		if (!Objects.equals(this.description, other.description)) {
+			return false;
+		}
+		if (!Objects.equals(this.category, other.category)) {
+			return false;
+		}
+		return true;
+	}
 
 }

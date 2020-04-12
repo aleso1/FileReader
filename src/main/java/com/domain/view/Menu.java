@@ -3,6 +3,7 @@ package com.domain.view;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.function.BiConsumer;
 
 import com.domain.model.util.Log;
 
@@ -49,7 +50,7 @@ public class Menu implements Log {
 		Scanner scan = new Scanner(System.in);
 		int choosen = -1;
 
-		System.out.println("\nInsert a number: ");
+		System.out.println("\nEnter your choise: ");
 
 		try {
 
@@ -63,7 +64,7 @@ public class Menu implements Log {
 		return choosen;
 	}
 
-	public String search() {
+	public static String search() {
 		LOG.debug("Searcing..");
 
 		Scanner scan = new Scanner(System.in);
@@ -71,8 +72,6 @@ public class Menu implements Log {
 
 		System.out.println("\nSearch: ");
 		strToSearch = scan.nextLine();
-
-//		scan.close();
 
 		return strToSearch;
 	}
